@@ -31,7 +31,7 @@
   document.querySelectorAll('[data-lines]').forEach((heading) => {
     [...heading.children].forEach((line) => {
       const inner = document.createElement('i');
-      inner.textContent = line.textContent;
+      inner.innerHTML = line.innerHTML;
       line.textContent = '';
       line.append(inner);
     });
@@ -107,7 +107,7 @@
       }
     });
 
-    if (!reduceMotion) {
+    if (!reduceMotion && window.innerWidth >= 768) {
       const ribbonSection = ribbon.parentElement;
       const ribbonRect = ribbonSection.getBoundingClientRect();
       const ribbonProgress = clamp((window.innerHeight - ribbonRect.top) / (window.innerHeight + ribbonRect.height), 0, 1);
@@ -120,6 +120,8 @@
         const offset = (window.innerHeight / 2 - (rect.top + rect.height / 2)) * strength;
         item.style.setProperty('--parallax-y', `${offset.toFixed(2)}px`);
       });
+    } else {
+      parallaxItems.forEach((item) => item.style.setProperty('--parallax-y', '0px'));
     }
 
     if (window.innerWidth >= 900 && flavourSection) {
